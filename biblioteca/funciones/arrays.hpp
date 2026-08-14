@@ -3,34 +3,68 @@
 
 #include <iostream>
 
+// 1.7.1.1. Función add
+// Descripción: Agrega el elemento e al final de arr incrementando su longitud len.
+// Retorna: int – La posición del array donde quedó ubicado el elemento e que acabamos de agregar.
 template <typename T>
-int add(T arr[],int& len,T e)
+int add(T arr[], int& len, T e)
 {
-   return 0;
+    arr[len] = e;
+    len++;
+    return len - 1;
 }
 
+// 1.7.1.2. Función insert
+// Descripción: Inserta el elemento e en la posición p del array arr. Desplaza los elementos ubicados a partir de p+1 e incrementa la longitud len.
 template <typename T>
-void insert(T arr[],int& len,T e,int p)
+void insert(T arr[], int& len, T e, int p)
 {
+    for (int i = len; i > p; i--){
+        arr[i] = arr[i - 1];
+    }
+
+    arr[p] = e;
+    len++;
 }
 
+// 1.7.1.3. Función remove
+// Descripción: Remueve el elemento ubicado en la posición p del array arr. Desplaza ubicados a partir de p y decrementa la longitud len.
+// Retorna: T – Elemento que fue removido del array.
 template <typename T>
-T remove(T arr[],int& len,int p)
+T remove(T arr[], int& len, int p)
 {
-   T ret;
-   return ret;
+    T ret = arr[p];
+    for (int i = p; i < len - 1; i++){
+        arr[i] = arr[i + 1];
+    }
+    len--;
+    return ret;
 }
 
+// 1.7.1.4. Función find
+// Descripción: Retorna la posición de la primera ocurrencia de k dentro de arr o un valor negativo si arr no contiene a k.
+// Retorna: int – Posición de la primera ocurrencia de k dentro de arr o un valor negativo si arr no contiene a k.
 template <typename T, typename K>
-int find(T arr[],int len,K k,int cmpTK(T,K))
+int find(T arr[], int len, K k, int cmpTK(T,K))
 {
-   return 0;
+    for (int i = 0; i < len; i++){
+        if (cmpTK(arr[i], k) == 0){
+            return i;
+        }
+    }
+    return -1;
 }
 
+
 template <typename T>
-int orderedInsert(T arr[],int& len,T e,int cmpTT(T,T))
+int orderedInsert(T arr[], int& len, T e, int cmpTT(T,T))
 {
-   return 0;
+    for(int i = 0; i < len; i++){
+        if(cmp(arr[i], e) > 0){
+            insert(arr, len, e i+1);
+        }
+    }
+    return 0;
 }
 
 template <typename T>
