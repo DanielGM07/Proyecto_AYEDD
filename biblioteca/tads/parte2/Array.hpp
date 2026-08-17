@@ -10,14 +10,25 @@ using std::string;
 template<typename T>
 struct Array
 {
+    T arr[];
+    int len;
 };
 
+// 1.8.1.2. Función array
+// Descripción: Inicializa un array cuya capacidad inicial será establecida por defecto. La longitud del array será 0, y se incrementará a medida que se agreguen o inserten nuevos elementos.
+// Retorna: Array<T> – El array.
 template<typename T>
 Array<T> array()
 {
-   return {};
+    Array<T> ar;
+    ar.arr[50];
+    ar.len = 0;
+    return ar;
 }
 
+// 1.8.1.3. Función arrayAdd
+// Descripción: Agrega t al final de a incrementando, de ser necesario, su capacidad. Retorna la posición del arr donde quedó ubicado el elemento t.
+// Retorna: int – Posición de a donde se agregó el elemento t.
 template<typename T>
 int arrayAdd(Array<T>& a,T t)
 {
