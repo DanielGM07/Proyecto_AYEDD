@@ -96,7 +96,7 @@ void armarTicket(Coll<RProducto> prods, Coll<RProducto>& ticket, int idProd, int
         rpro.cantDemanda += cant;
         collSetAt<RProducto>(ticket, rpro, posEnTicket, rProductoToString);
     }else{
-        RProducto newProd = collGetAt<RProducto>(prods, pos, rProductoFromString);
+        RProducto newProd = collGetAt<RProducto>(prods, posEnProds, rProductoFromString);
         newProd.cantDemanda += cant;
         collAdd<RProducto>(ticket, newProd, rProductoToString);
     }

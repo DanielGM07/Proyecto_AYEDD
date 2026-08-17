@@ -31,48 +31,27 @@ int cmpInt(int a, int b){
     return a-b;
 }
 
+int cmpInt1(int a, int b){
+    return b-a;
+}
+
 int main()
 {
-    // Tener siempre MUCHO CUIDADO con el tamaño del array, ya que, 
-    // este no se puede modificar. Ademas, si mas adelante tenemos pensado
-    // insertar o añadir mas valores, hay que tener en cuenta que 
-    // este puede desbordarse y empezar a dar resultados inesperados
-    // Ejemplo: en un inicio pusimos que sea un array de 10 espacios (arr[10])
-    // y llenamos todos esos espacios con valores, si despues hacemos un insert,
-    // va a saltar todo a la mierda. Me acaba de pasar xd jajajaja
-    
-    int len = 0;
+    int len = 6;
 
-    int arr[11];
-
-    for (int i = 0; i <= 9; i++){
-        int pos = add(arr, len, (i+1)*2);
-        cout << "Pos actual: " << pos << "\n";
-    }
-
-    cout << "\n";
+    int arrAsc[10] = {1, 2, 3, 5, 6, 7};
+    int arrDesc[10] = {7, 6, 5, 3, 2, 1};
 
     for (int i = 0; i < len; i++){
-        cout << i << ". " << arr[i] << "\n";
+        cout << arrDesc[i] << endl;
     }
 
-    cout << "\n";
-
-    cout << len << endl;
-
-    insert(arr, len, 5, 2);
-
-    cout << len << endl;
+    int posOrd = orderedInsert<int>(arrDesc, len, 0, cmpInt1);
+    cout << "\n" << posOrd << " pos insercion" << "\n\n";
 
     for (int i = 0; i < len; i++){
-        cout << i << ". " << arr[i] << "\n";
+        cout << arrDesc[i] << endl;
     }
-
-    while (len > 0){
-        int removed = remove(arr, len, 0);
-        cout << "Removed " << removed << "\n";
-    }
-
 
     return 0;
 }

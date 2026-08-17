@@ -55,21 +55,38 @@ int find(T arr[], int len, K k, int cmpTK(T,K))
     return -1;
 }
 
-
+// 1.7.1.5. Función orderedInsert
+// Descripción: Inserta e dentro de arr según el criterio de precedencia que establece cmpTT, y retorna la posición donde dicho elemento quedó insertado. El array arr debe estar ordenado o vacío.
+// Retorna: int – Posición donde quedó insertado e dentro de arr.
 template <typename T>
 int orderedInsert(T arr[], int& len, T e, int cmpTT(T,T))
 {
     for(int i = 0; i < len; i++){
-        if(cmp(arr[i], e) > 0){
-            insert(arr, len, e i+1);
+        if(cmpTT(arr[i], e) > 0){
+            insert(arr, len, e, i);
+            return i;
         }
     }
-    return 0;
+    // insert(arr, len, e, len);
+    add(arr, len, e);
+    return len-1;
 }
 
+// 1.7.1.6. Función sort
+// Descripción: Ordena arr según el criterio de precedencia que establece cmpTT.
 template <typename T>
-void sort(T arr[],int len,int cmpTT(T,T))
+void sort(T arr[], int len, int cmpTT(T,T))
 {
+    for (int i = 0; i < len; i++){
+        for (int j = 0; j < len - 1; j++){
+            T t1 = arr[j];
+            T t2 = arr[j+1];
+            if(cmpTT(t1, t2) > 0){
+                arr[j] = t2;
+                arr[j+1] = t1;
+            }
+        }
+    }
 }
 
 #endif
