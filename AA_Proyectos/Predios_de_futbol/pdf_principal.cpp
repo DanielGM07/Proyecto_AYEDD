@@ -43,6 +43,8 @@ struct Cancha
    char obs[200];
 };
 
+
+
 struct Rechazo
 {
    Reserva reserva; 

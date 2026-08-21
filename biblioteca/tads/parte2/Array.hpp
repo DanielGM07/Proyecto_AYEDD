@@ -10,7 +10,8 @@ using std::string;
 template<typename T>
 struct Array
 {
-    T arr[];
+    // T arr[];
+    T* arr = new T[5];
     int len;
 };
 
@@ -21,7 +22,7 @@ template<typename T>
 Array<T> array()
 {
     Array<T> ar;
-    ar.arr[50];
+    ar.arr[5];
     ar.len = 0;
     return ar;
 }
@@ -32,52 +33,121 @@ Array<T> array()
 template<typename T>
 int arrayAdd(Array<T>& a,T t)
 {
-    return 0;
+    // supongo que habra que gestionar punteros hmmm...
+    // int len = a.len; MMMMMMMMMMMMMMMMMMMMMM
+    if (a.len > 4){
+        T* b = new T[a.len + 1];
+        for (int i = 0; i < (a.len + 1); i++){
+            b[i] = a.arr[i];
+        }
+        delete a.arr;
+        a.arr = b;
+    }
+
+    a.arr[a.len] = t;
+    a.len++;
+    return a.len - 1;
 }
 
+// 1.8.1.4. Función arrayGet
+// Descripción: Retorna la dirección del elemento de a ubicado en la posición p.
+// Retorna: T* – Dirección del elemento ubicado en la posición p del array a.
 template<typename T>
 T* arrayGet(Array<T> a,int p)
 {
-   return NULL;
+    int* dir = &a.arr[p];
+    return dir;
 }
 
+// 1.8.1.5. Función arraySet
+// Descripción: Asigna el elemento t en la posición p del array a.
 template<typename T>
-void arraySet(Array<T>& a,int p,T t)
+void arraySet(Array<T>& a, int p, T t)
 {
+    a.arr[p] = t;
 }
 
+// 1.8.1.6. Función arrayInsert
+// Descripción: Inserta t en la posición p del array a.
+// LA DIFERENCIA CON ARRAY SET ES QUE ACA VAMOS A MOVER TODO UN PASO A LA DERECHA
 template<typename T>
-void arrayInsert(Array<T>& a,T t,int p)
+void arrayInsert(Array<T>& a, T t, int p)
 {
+    if (a.len > 4){
+        T* b = new T[a.len + 1];
+        for (int i = 0; i < (a.len + 1); i++){
+            b[i] = a.arr[i];
+        }
+        delete a.arr;
+        a.arr = b;
+    }
+
+    for (int i = a.len; i > p; i--){
+        a.arr[i] = a.arr[i - 1];
+    }
+
+    a.arr[p] = t;
+    a.len++;
 }
 
+// 1.8.1.7. Función arraySize
+// Descripción: Retorna la longitud actual del array.
+// Retorna: int – Longitud del array a.
 template<typename T>
 int arraySize(Array<T> a)
 {
-   return 0;
+    return a.len;
 }
 
+// 1.8.1.8. Función arrayRemove
+// Descripción: Remove el elemento de a ubicado en la posición p.
+// Retorna: T – Elemento que ocupaba la posición p dentro de a.
 template<typename T>
-T arrayRemove(Array<T>& a,int p)
+T arrayRemove(Array<T>& a, int p)
 {
-   return {};
+    T t = a.arr[p];
+    for (int i = p; i < a.len; i++){
+        a.arr[i] = a.arr[i+1];
+    }
+    a.len--;
+    return t;
 }
 
+// 1.8.1.9. Función arrayRemoveAll
+// Descripción: Remueve todos los elemento de a dejándolo vacío, con longitud 0.
 template<typename T>
 void arrayRemoveAll(Array<T>& a)
 {
+    // ESTO QUE HICE YO ACA ABAJO SERIA LO CORRECTO PARA DEJAR COMO TAL EL ARRAY A
+    // DIRECCIONANDO A UN ARRAY VACIO, PERO LE PREGUNTE AL PROFE PABLO Y ME DIJO
+    // LA BBSITA BEBE LIN, NO MENTIRA. ME DIJO QUE CON PONER EL LEN DEL ARRAY EN 0
+    // YA CUMPLIA.
+    // T* b = new T[a.len + 1];
+    // delete a.arr;
+    // a.arr = b;
+    a.len = 0;
 }
 
+// 1.8.1.10. Función arrayFind
+// Descripción: Retorna la posición que k ocupa dentro de a, según la función de compa-
+// ración cmpTK, o un valor negativo si a no contiene a k.
+// Retorna: int – Posición de la primera ocurrencia de k dentro de a o un valor negativo
+// si a no contiene a k.
 template<typename T,typename K>
 int arrayFind(Array<T> a,K k,int cmpTK(T,K))
 {
-   return 0;
+    // ES VALIDO PERO MEJOR RETORNAMOS DIRECTAMENTE
+    // int pos = find(a.arr, a.len, k, cmpTK);
+    return find(a.arr, a.len, k, cmpTK);
 }
 
+// 1.8.1.11. Función arrayOrderedInsert
+// Descripción: Inserta t en a según el criterio de precedencia que establece cmpTT.
+// Retorna: int – Posición donde quedó insertado t dentro de a.
 template<typename T>
 int arrayOrderedInsert(Array<T>& a,T t,int cmpTT(T,T))
 {
-   return 0;
+    return orderedInsert(a.arr, a.len, t, cmpTT);
 }
 
 template<typename T>
