@@ -150,10 +150,28 @@ int arrayOrderedInsert(Array<T>& a,T t,int cmpTT(T,T))
     return orderedInsert(a.arr, a.len, t, cmpTT);
 }
 
+// 1.8.1.12. Función arrayDiscover
+// Prototipo: T* arrayDiscover(Array<T>& a,T t,int cmpTT(T,T));
+// Descripción: Descubre (busca, y si no encuentra lo agrega) al elemento t en el array a.
+// Retorna: T* - La dirección del elemento encontrado, o recientemente agregado.
 template<typename T>
-T* arrayDiscover(Array<T>& a,T t,int cmpTT(T,T))
+T* arrayDiscover(Array<T>& a, T t,int cmpTT(T,T))
 {
-   return NULL;
+    // CHEQUEAR ESTE CODIGO
+    // int pos = arrayFind(a, t, cmpTT);
+    // int* dir = &pos;
+    // if (pos >= 0){
+    //     return dir;
+    // }
+    // int newPos = arrayAdd(a, t);
+    // int* newDir = &newPos;
+    // return newDir;
+    int pos = arrayFind(a, t, cmpTT);
+    int dir = &arrayFind<int>(a, t, cmpTT);
+    if (pos >= 1 ){
+        return 0;
+    }
+    return 0;
 }
 
 template<typename T>

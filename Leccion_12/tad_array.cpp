@@ -88,9 +88,27 @@ int main(){
     // Tengo que terminar de testear esto ya que anda medio mal
     cout << arrayOrderedInsert(arrOrd, 5, cmpInt);
 
+    cout << "\n\n";
+
     for (int i = 0; i < arrOrd.len; i++){
         cout << arrOrd.arr[i] << endl;
     }
+
+    cout << "\n";
+
+    cout << arrayDiscover(arrOrd, 10, cmpInt);
+
+    int* dir = &arrOrd.arr[2];
+    cout << "\n";
+    cout << "\n";
+    cout << dir << endl;
+
+    cout << "\n";
+
+    for (int i = 0; i < arrOrd.len; i++){
+        cout << arrOrd.arr[i] << endl;
+    }
+
     return 0;
 
 }
