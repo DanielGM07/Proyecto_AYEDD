@@ -13,6 +13,7 @@ struct Array
     // T arr[];
     T* arr = new T[5];
     int len;
+    int curr;
 };
 
 // 1.8.1.2. Función array
@@ -22,8 +23,9 @@ template<typename T>
 Array<T> array()
 {
     Array<T> ar;
-    ar.arr[5];
+    // ar.arr[5];   NO CONVIENE PQ LA MEMORIA YA LA RESERVAMOS EN EL STRUCT
     ar.len = 0;
+    ar.curr = 0;
     return ar;
 }
 
@@ -55,7 +57,7 @@ int arrayAdd(Array<T>& a,T t)
 template<typename T>
 T* arrayGet(Array<T> a,int p)
 {
-    int* dir = &a.arr[p];
+    T* dir = &a.arr[p];
     return dir;
 }
 
@@ -166,34 +168,54 @@ T* arrayDiscover(Array<T>& a, T t,int cmpTT(T,T))
     // int newPos = arrayAdd(a, t);
     // int* newDir = &newPos;
     // return newDir;
+    // TA INCHEQUEABLE EL CODIGO DE ARRIBA
+    
+    // THIS IS BULLSHIT, LETS DO SOME IMPROVEMENTS
+    // int pos = arrayFind(a, t, cmpTT);
+    // T* dir = &a.arr[pos];
+    // if (pos >= 0 ){
+    //     return dir;
+    // }
+    // int lastPos = arrayAdd(a, t);
+    // T* newDir = &a.arr[lastPos];
+    // return newDir;
+
     int pos = arrayFind(a, t, cmpTT);
-    int dir = &arrayFind<int>(a, t, cmpTT);
-    if (pos >= 1 ){
-        return 0;
+
+    if (pos >= 0){
+        return &a.arr[pos];
     }
-    return 0;
+
+    int newPos = arrayAdd(a, t);
+    return &a.arr[newPos];
 }
 
+// 1.8.1.13. Función arraySort
+// Descripción: Ordena el array a según establece cmpTT.
 template<typename T>
-void arraySort(Array<T>& a,int cmpTT(T,T))
+void arraySort(Array<T>& a, int cmpTT(T,T))
 {
+    sort(a.arr, a.len, cmpTT);
 }
 
 template<typename T>
 void arrayReset(Array<T>& a)
 {
+    a.curr = 0;
 }
 
 template<typename T>
 bool arrayHasNext(Array<T>& a)
 {
-    return true;
+    return a.curr < arraySize(a);
 }
 
 template<typename T>
 T* arrayNext(Array<T>& a)
 {
-    return NULL;
+    T* t = arrayGet<T>(a, a.curr);
+    a.curr++;
+    return t;
 }
 
 #endif

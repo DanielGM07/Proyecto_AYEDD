@@ -27,6 +27,10 @@ int cmpInt(int a, int b){
     return a-b;
 }
 
+int cmpIntReverse(int a, int b){
+    return b-a;
+}
+
 int main(){
     Array<int> arr = array<int>();
     arrayAdd(arr, 1);
@@ -96,18 +100,100 @@ int main(){
 
     cout << "\n";
 
-    cout << arrayDiscover(arrOrd, 10, cmpInt);
+    // FUNCIONAAA EL ARRAY DISCOVER
+    cout << "MEMORY DIRECTION from function: " << arrayDiscover(arrOrd, 10, cmpInt);
 
     int* dir = &arrOrd.arr[2];
+
     cout << "\n";
     cout << "\n";
-    cout << dir << endl;
+    cout << "MEMORY DIRECTION from hardcode: " << dir << endl;
+    cout << "\n";
+    cout << "\n";
+    cout << "MEMORY DIRECTION, added, from function: " << arrayDiscover(arrOrd, 67, cmpInt);
+    cout << "\n";
+    cout << "\n";
+    int* dir2 = &arrOrd.arr[4];
+    cout << "MEMORY DIRECTION, added, from hardcode: " << dir2 << endl;
 
     cout << "\n";
 
     for (int i = 0; i < arrOrd.len; i++){
         cout << arrOrd.arr[i] << endl;
     }
+    cout << "\n";
+    cout << "\n";
+
+    // EPETACULAAA, YA CASI DOMINO PUNTEROS Y DIRECCIONES DE MEMORIA
+
+    Array<int> a3 = array<int>();
+    arrayAdd(a3, 67);
+    arrayAdd(a3, 7);
+    arrayAdd(a3, 13);
+    arrayAdd(a3, 33);
+    arrayAdd(a3, 1);
+    cout << "NOT SORTED ARRAY!!: " << endl;
+    for (int i = 0; i < a3.len; i++){
+        cout << a3.arr[i] << endl;
+    }
+    
+    cout << "\n";
+    cout << "\n";
+    arraySort(a3, cmpInt);
+    cout << "YES SORTED ARRAY!!: " << endl;
+    for (int i = 0; i < a3.len; i++){
+        cout << a3.arr[i] << endl;
+    }
+        
+    cout << "\n";
+    cout << "\n";
+    arraySort(a3, cmpIntReverse);
+    cout << "YES SORTED ARRAY!!: " << endl;
+    for (int i = 0; i < a3.len; i++){
+        cout << a3.arr[i] << endl;
+    }
+
+    cout << "\n";
+
+    Array<string> fa = array<string>();
+    arrayAdd<string>(fa, "Daniel");
+    arrayAdd<string>(fa, "Messi");
+    arrayAdd<string>(fa, "Cristiano");
+    arrayAdd<string>(fa, "La champions");
+    arrayAdd<string>(fa, "La copa del mundo");
+
+    while( arrayHasNext<string>(fa) ){
+        string* str = arrayNext<string>(fa);
+        cout << *str << endl; 
+    }
+    cout << "\n";
+
+    Array<int> fa1 = array<int>();
+    arrayAdd<int>(fa1, 10);
+    arrayAdd<int>(fa1, 20);
+    arrayAdd<int>(fa1, 30);
+    arrayAdd<int>(fa1, 40);
+    arrayAdd<int>(fa1, 50);
+
+    while( arrayHasNext<int>(fa1) ){
+        int* str = arrayNext<int>(fa1);
+        cout << *str << endl; 
+    }
+    
+    cout << "\nHMMMMMMM";
+    while( arrayHasNext<int>(fa1) ){
+        int* str = arrayNext<int>(fa1);
+        cout << *str << endl; 
+    }
+    cout << "HMMMMMMM\n\n";
+    arrayReset<int>(fa1);
+    
+    while( arrayHasNext<int>(fa1) ){
+        int* str = arrayNext<int>(fa1);
+        cout << *str << endl; 
+    }
+
+    // ALLLLLLRIGHT, ALL FUNCTIONS WERE TESTED, EVERYTHING'S OKAY
 
     return 0;
 
