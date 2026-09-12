@@ -11,9 +11,17 @@ template<typename T>
 struct Array
 {
     // T arr[];
-    T* arr = new T[5];
+    
+    // T* arr = new T[5];
+    // int len;
+    // int curr;
+
+    // NO TENIA PUESTO ESE ASTERISCO, ESE PUTISIMO ASTERISCO ME ESTUVO CAGANDO
+    // TODO EL PROGRAMA POR COMO 30 MINUTOS Y NO ENTENDIA PORQUEEEE
+    T* arr;
     int len;
     int curr;
+    int cap;
 };
 
 // 1.8.1.2. Función array
@@ -22,11 +30,14 @@ struct Array
 template<typename T>
 Array<T> array()
 {
-    Array<T> ar;
+    Array<T> arr;
     // ar.arr[5];   NO CONVIENE PQ LA MEMORIA YA LA RESERVAMOS EN EL STRUCT
-    ar.len = 0;
-    ar.curr = 0;
-    return ar;
+    arr.len = 0;
+    arr.curr = 0;
+    arr.cap = 10;
+    arr.arr = new T[arr.cap];
+
+    return arr;
 }
 
 // 1.8.1.3. Función arrayAdd
@@ -46,9 +57,12 @@ int arrayAdd(Array<T>& a,T t)
         a.arr = b;
     }
 
-    a.arr[a.len] = t;
-    a.len++;
-    return a.len - 1;
+    // a.arr[a.len] = t;
+    // a.len++;
+    // return a.len - 1;
+
+    int posAct = add(a.arr, a.len, t);
+    return posAct;
 }
 
 // 1.8.1.4. Función arrayGet
