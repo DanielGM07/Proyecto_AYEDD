@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <iostream>
 using std::string;
@@ -760,7 +761,13 @@ string removeAt(string s, int pos)
 // cout << "[" << r << "]" << endl; // [Esto es una prueba ]
 string ltrim(string s)
 {
-    while(s[0] == ' '){
+    // Este codigo funciona pero crashea con el caso ""
+    // while(s[0] == ' '){
+    //     s = removeAt(s, 0);
+    // }
+
+    while(!isEmpty(s) && s[0] == ' ')
+    {
         s = removeAt(s, 0);
     }
     return s;
@@ -783,9 +790,16 @@ string ltrim(string s)
 // cout << "[" << r << "]" << endl; // [ Esto es una prueba]
 string rtrim(string s)
 {
-    while(s[s.length() - 1] == ' '){
+    // Funciona pero tmb crashea con ""
+    // while(s[s.length() - 1] == ' '){
+    //     s = removeAt(s, s.length() - 1);
+    // }
+
+    while(!isEmpty(s) && s[s.length() - 1] == ' ')
+    {
         s = removeAt(s, s.length() - 1);
     }
+    
     return s;
 }
 
@@ -1182,6 +1196,24 @@ char* stringToCString(string s)
 string cStringToString(char c[])
 {
     return string(c);
+}
+
+// FUNCION GENERADA POR EL CHAT GI PI TI 
+// GENERA UN STRING ALEATORIO DE LA LONGITUD QUE LE PASEMOS, CON 
+// CARACTERES QUE ESTEN ENTRE FROM Y TO 
+// EJ: len = 5, from = '0', to = '9'
+// salida = 67420
+string randomString(int len, char from, char to)
+{
+    string ret = "";
+
+    for(int i = 0; i < len; i++)
+    {
+        char c = from + rand() % (to - from + 1);
+        ret += c;
+    }
+
+    return ret;
 }
 
 #endif
