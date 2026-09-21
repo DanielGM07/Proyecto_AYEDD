@@ -315,4 +315,60 @@ void incrementContactCountByOne(FILE* f){
 // === === === FIN FUNCIONES PRINCIPALMENTE PARA AGADD === === ===
 
 
+
+// === === === FUNCIONES PRINCIPALMENTE PARA AGASK === === ===
+
+Map<unsigned char, string> moveToCCAndReturnMapRegTypes(FILE* f){
+    moveToFieldCount(f);
+    unsigned int fc = readFieldCount(f);
+    Map<unsigned char, string> mapRt = readRegTypes(f, fc);
+    return mapRt;
+}
+
+void moveToFirstRegData(FILE* f){
+    moveToContactCount(f);
+    readContactCount(f);
+}
+
+Map<unsigned char, string> moveToFirstRegDataAndReturnMapRegTypes(FILE* f){
+    Map<unsigned char, string> mapRt = moveToCCAndReturnMapRegTypes(f);
+    readContactCount(f);
+    return mapRt;
+}
+
+// void getRegDatas(FILE* f){
+//     readContacts(f, 0);
+// }
+
+Map<unsigned char, string> getMapIdVal(RegData rd){
+    Map<unsigned char, string> mapRet = rd.mapIdVal;
+    return mapRet;
+}
+
+Map<unsigned char, string> regTypesInRegData(RegData rd, Map<unsigned char, string> mapRt){
+    Map<unsigned char, string> rtsInRd = map<unsigned char, string>();
+    while ( mapHasNext(rd.mapIdVal) ){
+
+    }
+}
+
+void searchBy(FILE* f, unsigned int cc, Map<unsigned char, string> fieldAndValue){
+    Map<unsigned char, string> mapRt = moveToFirstRegDataAndReturnMapRegTypes(f);
+    Map<unsigned char, string> rtsInRd = map<unsigned char, string>();
+    Array<RegData> rdArr = readContacts(f, cc);
+
+    while ( arrayHasNext(rdArr) ){
+        RegData rd = *arrayNext<RegData>(rdArr);
+        Map<unsigned char, string> mapIdVal = rd.mapIdVal;
+
+        // if (){
+        // }
+    }
+
+
+}
+
+// === === === FIN FUNCIONES PRINCIPALMENTE PARA AGASK === === ===
+
+
 #endif
