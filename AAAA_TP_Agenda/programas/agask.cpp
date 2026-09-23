@@ -48,8 +48,8 @@ int main(int argc, char** argv){
     Se encontraron 2 contactos
     */
 
-    if( argc < 2 ){
-        cout << "Uso: agadd.exe \nIngrese los datos del contacto \n<campo 1> \n<campo 2> \n... \n<campo n>" << endl;
+    if( argc < 4 ){
+        cout << "Uso: agask.exe <FILENAME>.dat <CAMPO> <VALORCAMPO>" << endl;
         return 0;
     }
 
@@ -60,9 +60,16 @@ int main(int argc, char** argv){
         return 0;
     }
 
-    // cout << ""
-    
+    Map<string, string> fieldAndValue = map<string, string>();
+    mapPut<string, string>(fieldAndValue, argv[2], argv[3]);
+    Array<RegData> filteredRds = searchBy(f, fieldAndValue);
 
+    seek<unsigned char>(f, 0);
+    Map<unsigned char, string> rtMap = moveToCCAndReturnMapRegTypes(f);
+
+    string contactsStr = arrFilteredContactsToString(filteredRds, rtMap);
+
+    cout << contactsStr << endl;
 
     fclose(f);
 }

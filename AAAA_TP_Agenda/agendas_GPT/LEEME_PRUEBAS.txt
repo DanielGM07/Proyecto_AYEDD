@@ -1,0 +1,127 @@
+SUITE DE PRUEBAS - TP AGENDA (AYEDD)
+===========================================
+
+Todos los .dat de esta carpeta respetan el formato de la consigna:
+Integer = 2 bytes unsigned little-endian.
+String = 1 byte de longitud si L<255; si L>=255: FF + Integer(L) + caracteres.
+Date = 2 bytes: anio(7 bits) + mes(4 bits) + dia(5 bits).
+RegType = id(Byte) + descripcion(String).
+RegData = cantCamposCompletados(Byte) + pares [id(Byte) + valor(String)].
+
+FECHA usada en los archivos: 2026/09/22.
+
+ARCHIVOS
+--------
+1) AGENDA_AGASK_CASOS.dat
+   El principal para probar agask. Tiene 6 campos y 12 contactos, incluyendo:
+   - coincidencia al principio, medio y final de Nombre;
+   - diferencias de mayusculas/minusculas en el VALOR;
+   - contactos que no poseen el campo buscado;
+   - un contacto sin ningun campo;
+   - valores repetidos;
+   - un registro con los pares id/valor almacenados fuera de orden.
+
+   Busquedas esperadas (segun la logica actual: nombre de campo case-insensitive,
+   valor por subcadena case-sensitive):
+
+   agask.exe AGENDA_AGASK_CASOS.dat Nombre Pablo
+      -> 5 contactos: Pablo Sz, Juan Pablo, Ana Pablo, Pablo, Pablo Pablo
+
+   agask.exe AGENDA_AGASK_CASOS.dat nOmBrE Pablo
+      -> los mismos 5 (el nombre del campo se resuelve sin importar mayusculas)
+
+   agask.exe AGENDA_AGASK_CASOS.dat Nombre pablo
+      -> 1 contacto: pablo lowercase
+
+   agask.exe AGENDA_AGASK_CASOS.dat Email gmail.com
+      -> 6 contactos
+
+   agask.exe AGENDA_AGASK_CASOS.dat Ciudad "Buenos Aires"
+      -> 2 contactos: Pablo Sz y Maria Gomez
+
+   agask.exe AGENDA_AGASK_CASOS.dat Nota Pablo
+      -> 4 contactos: Ana Pablo, Maria Gomez, Pablo y Carlos
+
+   agask.exe AGENDA_AGASK_CASOS.dat Email Pablo
+      -> 1 contacto: Carlos
+
+   agask.exe AGENDA_AGASK_CASOS.dat Twitter algo
+      -> campo inexistente: no deberia encontrar contactos
+
+   OPCIONAL / borde:
+   agask.exe AGENDA_AGASK_CASOS.dat Nombre ""
+      -> si tu indexOf considera que "" esta en cualquier string, deberia coincidir
+         con todos los contactos que SI tienen Nombre (11). Este caso no es necesario
+         si decidiste no admitir una busqueda vacia.
+
+2) AGENDA_VACIA.dat
+   4 campos configurados, 0 contactos.
+   Sirve para agall, agask sin resultados y para probar el primer agadd.
+
+3) AGENDA_PARCIALES.dat
+   4 campos, 6 contactos. Hay contactos con 4, 2, 1 y 0 campos completados.
+   Algunos pares id/valor estan escritos fuera del orden 1,2,3,4.
+   Sirve para comprobar que usas el codigo de campo y no la posicion fisica.
+
+4) AGENDA_STRINGS_LIMITE.dat
+   Campo Texto con valores de longitud exacta 1, 254, 255 y 256.
+   Es especialmente util para verificar readString/writeString en el salto 254 -> 255.
+   Ejemplos:
+      agask.exe AGENDA_STRINGS_LIMITE.dat Texto BBB
+         -> 1 contacto: Len255
+      agask.exe AGENDA_STRINGS_LIMITE.dat Texto CCC
+         -> 1 contacto: Len256
+
+5) AGENDA_UN_CAMPO.dat
+   Caso minimo: un unico RegType (Nombre) y 4 contactos.
+   agask.exe AGENDA_UN_CAMPO.dat Nombre Pablo
+      -> 2 contactos: Pablo y PabloX
+   agask.exe AGENDA_UN_CAMPO.dat Nombre pablo
+      -> 1 contacto: Xpablo
+
+6) AGENDA_AGADD_BASE.dat
+   Base repetible para probar agadd. Tiene un solo contacto (Alice).
+   Hace una COPIA antes de cada prueba.
+
+   Prueba sugerida:
+      agadd.exe AGENDA_AGADD_BASE.dat
+      Nombre: Pedro
+      Celular: [ENTER]
+      Email: pedro@gmail.com
+      Instagram: [ENTER]
+
+   Luego agall deberia mostrar 2 contactos y Pedro deberia tener solamente
+   Nombre + Email. El contactCount del header debe haber pasado de 1 a 2.
+
+   Otra prueba borde: dejar TODOS los campos vacios. La consigna dice que un campo
+   vacio se omite; esto permite verificar como decidiste tratar un RegData con compFs=0.
+
+7) AGENDA_CAMPOS_CON_ESPACIOS.dat
+   RegTypes con descripciones que contienen espacios: Nombre completo,
+   Telefono laboral, Correo secundario. Sirve para probar lectura y busqueda con
+   argumentos entre comillas.
+
+PRUEBAS PARA agmk
+-----------------
+No necesitas un .dat previo porque agmk justamente lo crea.
+
+Caso normal:
+   agmk.exe MK_NORMAL.dat Nombre Celular Email Instagram
+   agall.exe MK_NORMAL.dat
+Esperado: 4 campos con codigos 1,2,3,4 y 0 contactos.
+
+Campos con espacios:
+   agmk.exe MK_ESPACIOS.dat "Nombre completo" "Telefono laboral" "Correo secundario"
+   agall.exe MK_ESPACIOS.dat
+Esperado: 3 campos, descripciones completas y 0 contactos.
+
+Caso minimo que vale la pena probar:
+   agmk.exe MK_MINIMA.dat Nombre
+   agall.exe MK_MINIMA.dat
+Esperado: 1 campo y 0 contactos.
+
+NOTA
+----
+Los numeros de serie de estos archivos son fijos y solo sirven para testear lectura.
+No uses una comparacion byte-a-byte contra lo que produzca tu agmk si tu programa
+calcula el serial o la fecha de otra manera. Compara la estructura y el contenido.

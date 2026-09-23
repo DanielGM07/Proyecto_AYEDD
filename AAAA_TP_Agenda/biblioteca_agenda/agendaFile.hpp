@@ -330,9 +330,9 @@ void moveToFirstRegData(FILE* f){
     readContactCount(f);
 }
 
-Map<unsigned char, string> moveToFirstRegDataAndReturnMapRegTypes(FILE* f){
+Map<unsigned char, string> moveToFirstRegDataAndReturnMapRegTypes(FILE* f, unsigned int& cc){
     Map<unsigned char, string> mapRt = moveToCCAndReturnMapRegTypes(f);
-    readContactCount(f);
+    cc = readContactCount(f);
     return mapRt;
 }
 
@@ -345,30 +345,76 @@ Map<unsigned char, string> getMapIdVal(RegData rd){
     return mapRet;
 }
 
-Map<unsigned char, string> regTypesInRegData(RegData rd, Map<unsigned char, string> mapRt){
-    Map<unsigned char, string> rtsInRd = map<unsigned char, string>();
-    while ( mapHasNext(rd.mapIdVal) ){
 
+// Estas dos funciones casi me sirven pero por ahora van al basurero
+// Map<unsigned char, string> regTypesInRegData(RegData rd, Map<unsigned char, string> mapRt){
+//     Map<unsigned char, string> rtsInRd = map<unsigned char, string>();
+//     while ( mapHasNext(rd.mapIdVal) ){
+
+//     }
+// }
+
+// string getDescById(Map<unsigned char, string> mapRt, unsigned char rdMapId){
+//     mapReset(mapRt);
+//     while( mapHasNext(mapRt) ){
+//         if(rd)
+//     }
+// }
+
+unsigned char getAssociatedId(Map<unsigned char, string> mapRt, 
+                              Map<string, string> fieldAndValue){
+    
+    mapReset(mapRt);
+    mapReset(fieldAndValue);
+    string key = mapNextKey(fieldAndValue);
+
+    while (mapHasNext(mapRt)){
+        unsigned char id = mapNextKey(mapRt);
+        string* value = mapGet(mapRt, id);
+        if(toLowerCase(key) == toLowerCase(*value)){
+            return id;
+        }
     }
+    return 0;
 }
 
-void searchBy(FILE* f, unsigned int cc, Map<unsigned char, string> fieldAndValue){
-    Map<unsigned char, string> mapRt = moveToFirstRegDataAndReturnMapRegTypes(f);
-    Map<unsigned char, string> rtsInRd = map<unsigned char, string>();
-    Array<RegData> rdArr = readContacts(f, cc);
+Array<RegData> searchBy(FILE* f, Map<string, string> fieldAndValue){
+    unsigned int cc;
+    Map<unsigned char, string> mapRt = moveToFirstRegDataAndReturnMapRegTypes(f, cc);
+    // Map<unsigned char, string> rtsInRd = map<unsigned char, string>();
+    
+    // Map<unsigned char, string> mapRt = moveToCCAndReturnMapRegTypes(f);
+    // unsigned int cc = readContactCount(f);
 
+    // Como ya estamos parados en el primer regData, podemos leer los contactos tranquilamente
+    Array<RegData> rdArr = readContacts(f, cc);
+    Array<RegData> rdsFound = array<RegData>();
+
+    mapReset(fieldAndValue);
+    unsigned char associatedId = getAssociatedId(mapRt, fieldAndValue);
+
+    if(associatedId == 0){
+        return rdsFound;
+    }
+
+    string* value = mapNextValue(fieldAndValue);
+
+    arrayReset(rdArr);
     while ( arrayHasNext(rdArr) ){
         RegData rd = *arrayNext<RegData>(rdArr);
         Map<unsigned char, string> mapIdVal = rd.mapIdVal;
 
-        // if (){
-        // }
+        if( mapContains(mapIdVal, associatedId) ){
+            // if( *mapGet(mapIdVal, associatedId) == *value){
+            if( indexOf(*mapGet(mapIdVal, associatedId), *value) >= 0){
+                arrayAdd(rdsFound, rd);
+            }
+        }
     }
 
-
+    return rdsFound;
 }
 
 // === === === FIN FUNCIONES PRINCIPALMENTE PARA AGASK === === ===
-
 
 #endif

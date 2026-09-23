@@ -163,4 +163,11 @@ void buildRegData(Map<unsigned char, string>& mapRt, RegData& rd){
     }
 }
 
+string arrFilteredContactsToString(Array<RegData> rdArray, Map<unsigned char, string> rtMap){
+    string rds = arrContactsToString(rdArray, rtMap);
+    rds += "------------------------------\n";
+    rds += "Se encontraron " + intToString(arraySize(rdArray)) + " contactos";
+    return rds;
+}
+
 #endif
