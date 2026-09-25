@@ -5,28 +5,100 @@
 
 #include <iostream>
 
+using std::cin;
+using std::cout;
+using std::endl;
+using std::getline;
+using std::string;
+using std::to_string;
+
 template <typename T>
 struct Node
 {
+    T info;
+    Node<T>* sig;
 };
 
 template <typename T>
 Node<T>* add(Node<T>*& p, T e)
 {
-    return NULL;
+    Node<T>* nuevo = new Node<T>();
+    nuevo->info = e;
+    nuevo->sig = NULL;
+
+    if(p == NULL)
+    {
+        p = nuevo;
+    }
+    else
+    {
+        Node<T>* aux = p;
+        while(aux->sig != NULL)
+        {
+            aux = aux->sig;
+        }
+        aux->sig = nuevo;
+    }
+
+    return nuevo;
 }
 
 template <typename T>
 Node<T>* addFirst(Node<T>*& p, T e)
 {
-    return NULL;
+    Node<T>* newFirst = new Node<T>();
+    newFirst->info = e;
+    newFirst->sig = p;
+
+    p = newFirst;
+
+    return newFirst;
 }
 
+// 1.9.1.4. Función remove
+// Descripción: Remueve la primera ocurrencia del elemento concordante con
+// cmpTK. Retorna: T – Valor del elemento que fue removido.
 template <typename T, typename K>
 T remove(Node<T>*& p, K k, int cmpTK(T, K))
 {
     T t;
-    return t;
+
+    Node<T>* auxAnt = p;
+    if(cmpTK(p->info, k) == 0)
+    {
+        t = p->info;
+        p = p->sig;
+        delete auxAnt;
+        return t;
+    }
+    else
+    {
+        Node<T>* aux = auxAnt->sig;
+        while(aux != NULL)
+        {
+            if(cmpTK((aux->info), k) == 0)
+            {
+                auxAnt->sig = aux->sig;
+                t = aux->info;
+                delete aux;
+                return t;
+            }
+            auxAnt = auxAnt->sig;
+            aux = aux->sig;
+        }
+    }
+
+    // Node<T>* auxAnt = p;
+
+    // if(cmpTK( (auxAnt->info), k) == 0){
+    //     if(aux != NULL) auxAnt->sig = aux->sig;
+    //     p = aux;
+
+    //     t = auxAnt->info;
+    //     delete auxAnt;
+    //     return t;
+    // }
+    // return t;
 }
 
 template <typename T>

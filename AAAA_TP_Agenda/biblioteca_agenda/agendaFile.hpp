@@ -105,7 +105,7 @@ Fecha readDate(FILE* f){
     unsigned int maskDay = 0x1F;
     unsigned int maskMonth = 0x1E0;
     unsigned int maskYear = 0xFE00;
-    
+
     int day = fullDate & maskDay;
     int month = (fullDate & maskMonth) >> 5;
     int year = (fullDate & maskYear) >> 9;
