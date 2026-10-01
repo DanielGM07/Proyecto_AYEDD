@@ -74,6 +74,12 @@ int coordenadasToInt(Mtx<T> m, int f, int c)
 template <typename T>
 T mtxGetAt(Mtx<T> m, int f, int c, T tFromString(string))
 {
+    // 0 1 2 3 4 5 6 7 8 9 a b c d e f
+    
+    // 0 1 2 3
+    // 4 5 6 7
+    // 8 9 a b
+    // c d e f
     T t = collGetAt<T>(m.colls, (f*m.c) + c, tFromString);
     return t;
 }

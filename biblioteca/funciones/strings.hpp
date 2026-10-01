@@ -7,6 +7,8 @@
 #include <stdlib.h>
 
 #include <iostream>
+#include <cassert>
+
 using std::string;
 
 // 1.2.1.1. Función length
@@ -104,12 +106,17 @@ int indexOf(string s, char c, int offSet)  // ok
 // dentro de la cadena s. Retorna: int – La posición inicial de la primera
 // ocurrencia de toSearch dentro de s o un valor negativo si s no contiene a
 // toSearch.
-int indexOf(string s, string toSearch)  // ok
+int indexOf(string s, string toSearch) // ok
 {
-    for(int i = 0, toSearchLength = toSearch.length();
-        i <= s.length() - toSearch.length(); i++, toSearchLength++)
+    // toSearch no puede ser mas largo que s, ya que, si no, 
+    // al hacer la resta dentro del for, nos queda un numero negativo
+    // que rompe el for y el codigo en general
+    // capaz despues tendria que documentar (comentar) mejor
+    // esta parte
+    assert(length(toSearch) <= length(s) && "String toSearch cant be longer tan s");
+    for(int i = 0; i <= s.length() - toSearch.length(); i++)
     {
-        if(substring(s, i, toSearchLength) == toSearch)
+        if(substring(s, i, toSearch.length() + i) == toSearch)
         {
             return i;
         }
@@ -125,6 +132,7 @@ int indexOf(string s, string toSearch)  // ok
 // conside- rando a s a partir de la posición offset.
 int indexOf(string s, string toSearch, int offset)
 {
+    assert(length(toSearch) <= length(s) && "String toSearch cant be longer tan s");
     for(int i = offset, toSearchLength = toSearch.length() + offset;
         i <= s.length() - toSearch.length(); i++, toSearchLength++)
     {

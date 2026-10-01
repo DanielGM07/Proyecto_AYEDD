@@ -406,8 +406,16 @@ Array<RegData> searchBy(FILE* f, Map<string, string> fieldAndValue){
 
         if( mapContains(mapIdVal, associatedId) ){
             // if( *mapGet(mapIdVal, associatedId) == *value){
-            if( indexOf(*mapGet(mapIdVal, associatedId), *value) >= 0){
-                arrayAdd(rdsFound, rd);
+            
+            // Tenemos que chequear que el largo de lo que esta en el campo
+            // que le pasamos por argumento, tiene que ser menor a lo que esta en 
+            // el campo de cada uno de los reg datas, ya que, si no, el indexOf se 
+            // rompe, al ser que el string toSearch es mas grande que el string s
+            
+            if (length(*value) <= length(*mapGet(mapIdVal, associatedId))){
+                if( indexOf(*mapGet(mapIdVal, associatedId), *value) >= 0){
+                    arrayAdd(rdsFound, rd);
+                }
             }
         }
     }
