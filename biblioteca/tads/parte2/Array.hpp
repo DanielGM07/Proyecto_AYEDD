@@ -40,6 +40,26 @@ Array<T> array()
     return arr;
 }
 
+template<typename T>
+void _arrayEnsureCapacity(Array<T>& a)
+{
+    if(a.len >= a.cap)
+    {
+        int nuevaCap = a.cap * 2;
+        T* nuevoArr = new T[nuevaCap];
+
+        for(int i = 0; i < a.len; i++)
+        {
+            nuevoArr[i] = a.arr[i];
+        }
+
+        delete[] a.arr;
+
+        a.arr = nuevoArr;
+        a.cap = nuevaCap;
+    }
+}
+
 // 1.8.1.3. Función arrayAdd
 // Descripción: Agrega t al final de a incrementando, de ser necesario, su capacidad. Retorna la posición del arr donde quedó ubicado el elemento t.
 // Retorna: int – Posición de a donde se agregó el elemento t.
@@ -48,14 +68,7 @@ int arrayAdd(Array<T>& a,T t)
 {
     // supongo que habra que gestionar punteros hmmm...
     // int len = a.len; MMMMMMMMMMMMMMMMMMMMMM
-    if (a.len > 4){
-        T* b = new T[a.len + 1];
-        for (int i = 0; i < (a.len + 1); i++){
-            b[i] = a.arr[i];
-        }
-        delete a.arr;
-        a.arr = b;
-    }
+    _arrayEnsureCapacity(a);
 
     // a.arr[a.len] = t;
     // a.len++;
@@ -89,14 +102,7 @@ void arraySet(Array<T>& a, int p, T t)
 template<typename T>
 void arrayInsert(Array<T>& a, T t, int p)
 {
-    if (a.len > 4){
-        T* b = new T[a.len + 1];
-        for (int i = 0; i < (a.len + 1); i++){
-            b[i] = a.arr[i];
-        }
-        delete a.arr;
-        a.arr = b;
-    }
+    _arrayEnsureCapacity(a);
 
     for (int i = a.len; i > p; i--){
         a.arr[i] = a.arr[i - 1];
@@ -163,6 +169,8 @@ int arrayFind(Array<T> a,K k,int cmpTK(T,K))
 template<typename T>
 int arrayOrderedInsert(Array<T>& a,T t,int cmpTT(T,T))
 {
+    _arrayEnsureCapacity(a);
+
     return orderedInsert(a.arr, a.len, t, cmpTT);
 }
 
