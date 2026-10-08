@@ -137,6 +137,8 @@ int listSize(List<T> lst)
 template <typename T>
 void listFree(List<T>& lst)
 {
+    lst.size = 0;
+    lst.curr = NULL;
     free(lst.p);
 }
 
@@ -166,6 +168,10 @@ T* listOrderedInsert(List<T>& lst, T t, int cmpTT(T, T))
 {
     Node<T>* inserted = orderedInsert(lst.p, t, cmpTT);
     lst.size++;
+    if(lst.size == 1)
+    {
+        lst.curr = lst.p;
+    }
     return &inserted->info;
 }
 
