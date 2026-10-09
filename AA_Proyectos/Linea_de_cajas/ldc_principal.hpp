@@ -32,27 +32,7 @@ using std::getline;
 using std::string;
 using std::to_string;
 
-struct Buque
-{
-   int idBuque;
-   char nombre[50];
-   int darsena;
-   int grua; 
-   int cantContainers;
-   Fecha fecha; // llegada o salida
-   int cteFlotacion;
-   char oriODest[100];
-};
 
-struct Container
-{
-   int idContainer;
-   int peso;
-   int longitud; 
-   int idBuque;
-};
-
-bool estable(int peso,int longitud,int cteFlotacion);
 
 
 #endif

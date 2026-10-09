@@ -194,7 +194,7 @@ V* mapDiscover(Map<K, V>& m, K k, V v)
     // }
     // return mapPut(m, k, v);
 
-    int* dir = mapGet(m, k);
+    V* dir = mapGet(m, k);
     if(dir != NULL){
         return dir;
     }
